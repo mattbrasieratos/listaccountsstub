@@ -20,7 +20,12 @@ public class ServicesImpl extends Application implements Services {
     @Override
     public Response listAccounts(@Context HttpHeaders headers, @PathParam("param") String param) {
         String customer = param;
-        return Response.ok(testData.getData(customer)).build();
+        String responseData = testData.getData(customer);
+        if (responseData == null)
+        {
+            return Response.noContent().build();
+        }
+        return Response.ok(responseData).build();
     }
 
 
