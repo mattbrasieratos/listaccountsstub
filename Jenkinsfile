@@ -54,13 +54,13 @@ node {
 
     stage('Publish war') {
         withCredentials([usernameColonPassword(credentialsId: 'nexus', variable: 'USERPASS')]) {
-            sh '''curl -v -u ${USERPASS} --upload-file target/OL001-listaccounts.war \
-                     http://nexus:8081/repository/maven-snapshots/net/atos/OL001-listaccounts/${BUILD_TIMESTAMP}-SNAPSHOT/OL001-listaccounts-${BUILD_TIMESTAMP}-SNAPSHOT.war'''
+            sh '''curl -v -u ${USERPASS} --upload-file target/ol001-listaccounts.war \
+                     http://nexus:8081/repository/maven-snapshots/net/atos/ol001-listaccounts/${BUILD_TIMESTAMP}-SNAPSHOT/ol001-listaccounts-${BUILD_TIMESTAMP}-SNAPSHOT.war'''
         }
     }
 
     stage('Publish Image') {
-        def img = docker.image('OL001-listaccounts:0.0.1-SNAPSHOT');
+        def img = docker.image('ol001-listaccounts:0.0.1-SNAPSHOT');
         docker.withRegistry('http://nexus:2375', 'nexus') {
           img.push();
         }
