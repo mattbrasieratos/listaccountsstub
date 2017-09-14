@@ -49,12 +49,23 @@ public class ServicesTest {
 
   @Test
   @RunAsClient
+  public void getTwoAccounts(@ArquillianResource URL url) {
+    given().
+            when().
+            get(url.toExternalForm() + "b2crestapi/2/principaltocashaccountlinks?maxResults=2").
+            then().
+            assertThat().statusCode(Response.Status.OK.getStatusCode()).
+            assertThat().body(equalTo(testData.getData("2")));
+  }
+
+  @Test
+  @RunAsClient
   public void getNoCustomer(@ArquillianResource URL url) {
     given().
             when().
             get(url.toExternalForm() + "b2crestapi/99/principaltocashaccountlinks?maxResults=1").
             then().
-            assertThat().statusCode(Response.Status.NO_CONTENT.getStatusCode());
+            assertThat().statusCode(Response.Status.NOT_FOUND.getStatusCode());
   }
 
 

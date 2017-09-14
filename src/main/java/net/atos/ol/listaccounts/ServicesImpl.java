@@ -23,7 +23,7 @@ public class ServicesImpl extends Application implements Services {
         String responseData = testData.getData(customer);
         if (responseData == null)
         {
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok(responseData).build();
     }
