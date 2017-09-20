@@ -48,6 +48,7 @@ node {
         }
 
         stage('Containerise') {
+          sh "git rev-parse HEAD > build.id"
           sh 'mvn -B docker:build'
         }
     }
@@ -63,13 +64,8 @@ node {
         def img = docker.image('ol001-listaccounts-stub:0.0.1-SNAPSHOT');
 
         docker.withRegistry('http://nexus:2375', 'nexus') {
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-
-        println commit_id
         img.push();
         img.push('latest')
-        img.push("${commit_id}")
 	}
     }
 }
